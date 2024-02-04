@@ -1,7 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 interface IPasswordItem {
   id: number;
   userName: string;
@@ -20,6 +20,10 @@ interface IPasswordItem {
 export class DataDisplayComponent implements OnInit {
   httpClient = inject(HttpClient);
   passwordData: IPasswordItem[] = [];
+  singlePassword: IPasswordItem[] = [];
+  editMode: boolean = false;
+  currentPasswordItemId: number;
+  @ViewChild('userPasswordForm') form: NgForm;
 
   ngOnInit(): void {
     this.fetchData();
@@ -48,13 +52,46 @@ export class DataDisplayComponent implements OnInit {
     return updatedItems;
   }
 
-  //Create new user password
+  //Create new user password or update an existing one
   async onSubmit(data: IPasswordItem) {
-    console.log(data);
-    await this.httpClient
-      .post('http://localhost:5014/api/Passwords', data)
-      .subscribe((result) => {
-        console.log('Result', result);
-      });
+    if (!this.editMode) {
+      /*If the editmode is false, a new pass item will be saved*/
+      await this.httpClient
+        .post('http://localhost:5014/api/Passwords', data)
+        .subscribe((result) => {
+          console.log('Result', result);
+          this.fetchData();
+        });
+    } else {
+      /*Otherwise the data will be updated */
+      const id = this.currentPasswordItemId;
+      await this.httpClient
+        .put(`http://localhost:5014/api/Passwords/${id}/`, data)
+        .subscribe((result) => {
+          console.log(result);
+          this.fetchData();
+          this.editMode = false;
+        });
+    }
   }
+
+  //get one password
+  async handleEditClick(id: number) {
+    this.currentPasswordItemId = id;
+    await this.httpClient
+      .get(`http://localhost:5014/api/Passwords/${id}/${true}`)
+      .subscribe((data: any) => {
+        this.singlePassword = data;
+        console.log('clicked', this.singlePassword);
+        this.form.setValue({
+          userName: data.userName,
+          app: data.app,
+          category: data.category,
+          userPassword: data.userPassword,
+        });
+      });
+    this.editMode = true;
+  }
+
+  //delete password item
 }
