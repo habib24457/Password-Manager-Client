@@ -34,22 +34,13 @@ export class DataDisplayComponent implements OnInit {
     await this.httpClient
       .get('http://localhost:5014/api/Passwords')
       .subscribe((data: any) => {
+        /*If we want to show all the passwords decrypted
         console.log('Raw data with password encryption', data);
         let decryptedPasswordItems = this.decryptPassword(data);
         console.log('After password decrypting', decryptedPasswordItems);
-        this.passwordData = decryptedPasswordItems;
+        this.passwordData = decryptedPasswordItems;*/
+        this.passwordData = data;
       });
-  }
-
-  decryptPassword(encryptedPasswordItems: IPasswordItem[]) {
-    console.log(encryptedPasswordItems);
-    let updatedItems: IPasswordItem[] = [...encryptedPasswordItems];
-    for (let i = 0; i < encryptedPasswordItems.length; i++) {
-      let base64String = encryptedPasswordItems[i].userPassword;
-      let asciiString = atob(base64String);
-      updatedItems[i].userPassword = asciiString;
-    }
-    return updatedItems;
   }
 
   //Create new user password or update an existing one
@@ -92,6 +83,18 @@ export class DataDisplayComponent implements OnInit {
       });
     this.editMode = true;
   }
+
+  /*Decrypting the password in the frontend
+  decryptPassword(encryptedPasswordItems: IPasswordItem[]) {
+    console.log(encryptedPasswordItems);
+    let updatedItems: IPasswordItem[] = [...encryptedPasswordItems];
+    for (let i = 0; i < encryptedPasswordItems.length; i++) {
+      let base64String = encryptedPasswordItems[i].userPassword;
+      let asciiString = atob(base64String);
+      updatedItems[i].userPassword = asciiString;
+    }
+    return updatedItems;
+  }*/
 
   //delete password item
   async handleDeleteClick(id: number) {
