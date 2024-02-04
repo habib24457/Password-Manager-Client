@@ -28,5 +28,45 @@
     </table>
   </div>
 
-  <div class="col-md-6"></div>
+  <div class="col-md-6">
+    <form #userPost="ngForm" (ngSubmit)="onSubmit(userPost.value)">
+      <input
+        class="form-control form-control-sm"
+        type="text"
+        placeholder="User Name"
+        name="userName"
+        ngModel
+        required
+      />
+      <br />
+      <input
+        class="form-control form-control-sm"
+        type="text"
+        name="app"
+        placeholder="App"
+        ngModel
+        required
+      />
+      <br />
+      <input
+        class="form-control form-control-sm"
+        type="text"
+        name="category"
+        placeholder="Category"
+        ngModel
+        required
+      />
+      <br />
+      <input
+        class="form-control form-control-sm"
+        type="password"
+        name="userPassword"
+        placeholder="Password"
+        ngModel
+        required
+      />
+      <br />
+      <button type="submit" class="btn btn-success">Create</button>
+    </form>
+  </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 interface IPasswordItem {
   id: number;
   userName: string;
@@ -13,7 +13,7 @@ interface IPasswordItem {
 @Component({
   selector: 'app-data-display',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './data-display.component.html',
   styleUrl: './data-display.component.css',
 })
@@ -48,5 +48,13 @@ export class DataDisplayComponent implements OnInit {
     return updatedItems;
   }
 
-  //Create new user
+  //Create new user password
+  async onSubmit(data: IPasswordItem) {
+    console.log(data);
+    await this.httpClient
+      .post('http://localhost:5014/api/Passwords', data)
+      .subscribe((result) => {
+        console.log('Result', result);
+      });
+  }
 }
