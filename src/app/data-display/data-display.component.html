@@ -23,7 +23,9 @@
             <button class="btn btn-success" (click)="handleEditClick(i.id)">
               Edit
             </button>
-            <button class="btn btn-danger">Delete</button>
+            <button class="btn btn-danger" (click)="handleDeleteClick(i.id)">
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
@@ -31,51 +33,58 @@
   </div>
 
   <div class="col-md-6">
-    <form
-      #userPasswordForm="ngForm"
-      (ngSubmit)="onSubmit(userPasswordForm.value)"
-    >
-      <input
-        class="form-control form-control-sm"
-        type="text"
-        placeholder="User Name"
-        name="userName"
-        ngModel
-        required
-      />
-      <br />
-      <input
-        class="form-control form-control-sm"
-        type="text"
-        name="app"
-        placeholder="App"
-        ngModel
-        required
-      />
-      <br />
-      <input
-        class="form-control form-control-sm"
-        type="text"
-        name="category"
-        placeholder="Category"
-        ngModel
-        required
-      />
-      <br />
-      <input
-        class="form-control form-control-sm"
-        type="text"
-        name="userPassword"
-        placeholder="Password"
-        ngModel
-        required
-      />
-      <br />
-      <input
-        class="btn btn-success"
-        type="submit"
-        value="{{ editMode ? 'Update Password' : 'Add New Password' }}"
-      />
-    </form>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <form
+        #userPasswordForm="ngForm"
+        (ngSubmit)="onSubmit(userPasswordForm.value)"
+      >
+        <label>User Name</label>
+        <input
+          class="form-control form-control-sm"
+          type="text"
+          placeholder="User Name"
+          name="userName"
+          ngModel
+          required
+        />
+        <br />
+        <label>App</label>
+        <input
+          class="form-control form-control-sm"
+          type="text"
+          name="app"
+          placeholder="App"
+          ngModel
+          required
+        />
+        <br />
+        <label>Category</label>
+        <input
+          class="form-control form-control-sm"
+          type="text"
+          name="category"
+          placeholder="Category"
+          ngModel
+          required
+        />
+        <br />
+        <label>Password</label>
+        <input
+          class="form-control form-control-sm"
+          type="text"
+          name="userPassword"
+          placeholder="Password"
+          ngModel
+          required
+        />
+        <br />
+        <input
+          class="btn btn-success"
+          type="submit"
+          value="{{ editMode ? 'Update Password' : 'Add New Password' }}"
+        />
+      </form>
+    </div>
   </div>
 </div>

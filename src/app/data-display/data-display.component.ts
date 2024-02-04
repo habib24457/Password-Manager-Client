@@ -94,4 +94,12 @@ export class DataDisplayComponent implements OnInit {
   }
 
   //delete password item
+  async handleDeleteClick(id: number) {
+    await this.httpClient
+      .delete(`http://localhost:5014/api/Passwords/${id}`)
+      .subscribe((result) => {
+        console.log(result);
+        this.fetchData();
+      });
+  }
 }
